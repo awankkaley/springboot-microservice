@@ -1,0 +1,70 @@
+
+spring:
+  profiles:
+    active: local
+    group:
+      "local": "localDB, common"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "localDB"
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:tcp://localhost:9091/mem:testdb;MODE=MYSQL;DATABASE_TO_LOWER=true;
+      username: sa
+      password:
+
+  jpa:
+    database-platform: H2
+    show-sql: true
+    #    properties:
+    #      hibernate:
+    #        format_sql: true
+    hibernate:
+      #      ddl-auto: none
+      ddl-auto: create
+
+#  sql:
+#    init:
+#      mode: ALWAYS
+---
+spring:
+  config:
+    activate:
+      on-profile: "common"
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+        storage_engine: innodb
+  application:
+    name: "auth-service"
+
+server:
+  port: 8080
+  error:
+    include-exception: false      # show Exception at Response
+    include-message: always      # show Exception message on Response (never | always | on_param)
+    include-stacktrace: on_param  # show stack trace on response (never | always | on_param)
+    whitelabel.enabled: true      # show whitelabel error page when error occur
+  servlet:
+    encoding:
+      charset: "UTF-8"
+      force: true
+
+logging.level.root: info
+
+
+
+jwt:
+  secret: YzJsc2RtVnlibWx1WlMxMFpXTm9MWE53Y21sdVp5MWliMjkwTFdwM2RDMTBkWFJ2Y21saGJDMXpaV055WlhRdGMybHNkbVZ5Ym1sdVpTMTBaV05vTFhOd2NtbHVaeTFpYjI5MExXcDNkQzEwZFhSdmNtbGhiQzF6WldOeVpYUUsK
+
